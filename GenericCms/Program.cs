@@ -4,7 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using CaseExtensions;
 using GenericCms.Helpers;
 using JetBrains.Annotations;
-using Newtonsoft.Json.Serialization;
+
 
 namespace GenericCms;
 
@@ -21,7 +21,6 @@ public class Program
         builder.Services.AddControllers().AddNewtonsoftJson((x =>
         {
             x.SerializerSettings.Converters.Add(new ExpandoObjectConverter(y => y.ToPascalCase()));
-            x.SerializerSettings.ContractResolver =new CamelCasePropertyNamesContractResolver();
 
         }));
 

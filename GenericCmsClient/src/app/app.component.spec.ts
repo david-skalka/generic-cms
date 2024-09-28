@@ -33,10 +33,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'DotnetCmsClient'`, () => {
+  it(`should have as title 'GenericCmsClient'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('DotnetCmsClient');
+    expect(app.title).toEqual('GenericCmsClient');
   });
 
   

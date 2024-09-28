@@ -11,7 +11,7 @@ import { EntityServiceProviderToken } from './injection-tokes';
 })
 export class AppComponent implements OnInit {
   
-  title = 'DotnetCmsClient';
+  title = 'GenericCmsClient';
 
   entities: string[] = [];
 

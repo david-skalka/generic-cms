@@ -17,21 +17,21 @@ namespace GenericCms.Controllers
         
 
         [HttpPost("query/{name}")]
-        public IEnumerable<dynamic> Query(string name, [FromBody] ExpandoObject filter)
+        public IEnumerable<ExpandoObject> Query(string name, [FromBody] ExpandoObject filter)
         {
             
-            return entityServices.Single(x=>x.Name==name).Query(filter);
+            return entityServices.Single(x=>x.Name==name).Query(filter).Select(x=>(ExpandoObject)x);
         }
 
 
         [HttpGet("{name}")]
-        public IEnumerable<dynamic> GetAll(string name)
+        public IEnumerable<ExpandoObject> GetAll(string name)
         {
-            return entityServices.Single(x => x.Name == name).Get();
+            return entityServices.Single(x => x.Name == name).Get().Select(x => (ExpandoObject)x);
         }
 
         [HttpGet("{name}/{id}")]
-        public ActionResult<dynamic> Get(string name, string id)
+        public ActionResult<ExpandoObject> Get(string name, string id)
         {
             return entityServices.Single(x => x.Name == name).Get(id);
         }
@@ -42,7 +42,7 @@ namespace GenericCms.Controllers
 
 
         [HttpPost("{name}")]
-        public ActionResult<dynamic> Create(string name, ExpandoObject data)
+        public ActionResult<ExpandoObject> Create(string name, ExpandoObject data)
         {
 
             
@@ -104,9 +104,9 @@ namespace GenericCms.Controllers
 
 
         [HttpPost("ExecuteOperation/{name}/{operationName}")]
-        public IEnumerable<dynamic> ExecuteOperation(string name, string operationName, ExpandoObject data)
+        public IEnumerable<ExpandoObject> ExecuteOperation(string name, string operationName, ExpandoObject data)
         {
-            return entityServices.Single(x => x.Name == name).ExecuteOperation(operationName, data);
+            return entityServices.Single(x => x.Name == name).ExecuteOperation(operationName, data).Select(x=>(ExpandoObject)x);
             
         }
 

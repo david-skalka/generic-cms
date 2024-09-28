@@ -43,14 +43,14 @@ export interface EntityServiceInterface {
      * @param operationName 
      * @param requestBody 
      */
-    entityExecuteOperationNameOperationNamePost(name: string, operationName: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<Array<any>>;
+    entityExecuteOperationNameOperationNamePost(name: string, operationName: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<Array<{ [key: string]: any; }>>;
 
     /**
      * 
      * 
      * @param name 
      */
-    entityNameGet(name: string, extraHttpRequestParams?: any): Observable<Array<any>>;
+    entityNameGet(name: string, extraHttpRequestParams?: any): Observable<Array<{ [key: string]: any; }>>;
 
     /**
      * 
@@ -66,7 +66,7 @@ export interface EntityServiceInterface {
      * @param name 
      * @param id 
      */
-    entityNameIdGet(name: string, id: string, extraHttpRequestParams?: any): Observable<{}>;
+    entityNameIdGet(name: string, id: string, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * 
@@ -83,7 +83,7 @@ export interface EntityServiceInterface {
      * @param name 
      * @param requestBody 
      */
-    entityNamePost(name: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<{}>;
+    entityNamePost(name: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * 
@@ -91,6 +91,6 @@ export interface EntityServiceInterface {
      * @param name 
      * @param requestBody 
      */
-    entityQueryNamePost(name: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<Array<any>>;
+    entityQueryNamePost(name: string, requestBody?: { [key: string]: any; }, extraHttpRequestParams?: any): Observable<Array<{ [key: string]: any; }>>;
 
 }

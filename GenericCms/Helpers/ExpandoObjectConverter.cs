@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System.Dynamic;
 
 
@@ -9,7 +10,7 @@ namespace GenericCms.Helpers;
 public class ExpandoObjectConverter(Func<string, string> propertyNameResolver) : JsonConverter<ExpandoObject>
 {
 
-    public override bool CanWrite => false;
+    
 
    
     
@@ -80,6 +81,8 @@ public class ExpandoObjectConverter(Func<string, string> propertyNameResolver) :
 
     public override void WriteJson(JsonWriter writer, ExpandoObject? value, JsonSerializer serializer)
     {
-        throw new NotImplementedException("ExpandoObject serialization not implemented.");
+        var res = JsonConvert.SerializeObject(value, new JsonSerializerSettings() { ContractResolver=new CamelCasePropertyNamesContractResolver() });
+        writer.WriteRawValue(res);
+        
     }
 }
