@@ -5,8 +5,8 @@
  ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
  ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 
-  ![Dotnet coverage](https://gist.githubusercontent.com/david-skalka/ee887513e0318f0ceeee0caaf8271286/raw/879e7308fda0d1f2da88106f6ba6f86727befc96/dotnet-coverage.svg)
-  ![Angular coverage](https://gist.githubusercontent.com/david-skalka/0205fa3b1b481951ba27260c463757aa/raw/afd0b672db6df5fafca3f910f662bca078f5628a/angular-coverage.svg)
+  ![Dotnet coverage](https://gist.githubusercontent.com/david-skalka/1ac2c9f2002be792389622871ae9401c/raw/5506ee20184662dbf5cf01bc1874c56f2d1e30bf/generic-cms-dotnet-coverage.svg)
+  ![Angular coverage](https://gist.githubusercontent.com/david-skalka/2fe3b3d1c237d24d01747fdad6319909/raw/b26c4badea9223255d1cde052f8477a6c861e0a8/generic-cms-angular-coverage.svg)
   
 </p>
 
