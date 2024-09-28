@@ -1,1 +1,1 @@
-jb inspectcode DotnetCms.sln -f=text -o=inspect-report.txt
+jb inspectcode GenericCms.sln -f=text -o=inspect-report.txt
