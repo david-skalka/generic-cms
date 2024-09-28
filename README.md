@@ -12,13 +12,23 @@
 
 
 This repository demonstrates a generic, testable headless CMS architecture built with .NET, MongoDB, and an Angular-based admin interface. The core principle is to represent any real-world use case through entities and their operations. The CMS allows users to define entities and associate their operations using an autofac.json configuration. A single, simple, generic EntityService with custom operations is used to handle any real-world use case, ensuring both flexibility and reusability across the system.
-### 🏠 [Homepage](https://github.com/david-skalka/DotnetCmsPattern)
+### 🏠 [Homepage](https://github.com/david-skalka/generic-cms)
 
 ## Screenshots
 
+### Entity list
+<a href="Images/entity.png">
+  <img src="Images/entity.png" width="300" >
+</a>
+
 ### Entity edit
-<a href="Images/Content.png">
-  <img src="Images/Content.png" width="400" >
+<a href="Images/entity-edit.png">
+  <img src="Images/entity-edit.png" width="300" >
+</a>
+
+### Execute operation
+<a href="Images/execute-operation.png">
+  <img src="Images/execute-operation.png" width="300" >
 </a>
 
 
@@ -135,43 +145,43 @@ This repository demonstrates a generic, testable headless CMS architecture built
       }
     },
     {
-      "type": "DotnetCms.Services.EntityService, DotnetCms",
+      "type": "GenericCms.Services.EntityService, GenericCms",
       "instanceScope": "singleInstance",
       "injectProperties": true,
       "properties": {
         "Name": "ProductCategory",
         "ModelPath": "Example\\Entities\\product-category.json",
-        "OperationsMap": { "ProductsCount": "DotnetCms.Example.ProductCategoryProductsCountOperation" }
+        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" }
       },
       "services": [
         {
           "type": "Autofac.IStartable, Autofac"
         },
         {
-          "type": "DotnetCms.Services.EntityService, DotnetCms"
+          "type": "GenericCms.Services.EntityService, GenericCms"
         }
       ]
     },
     {
-      "type": "DotnetCms.Example.ProductCategoryProductsCountOperation, DotnetCms",
+      "type": "GenericCms.Example.ProductCategoryProductsCountOperation, GenericCms",
       "instanceScope": "singleInstance",
 
       "services": [
         {
-          "type": "DotnetCms.Services.IEntityOperation, DotnetCms"
+          "type": "GenericCms.Services.IEntityOperation, GenericCms"
         }
       ]
     },
     {
-      "type": "DotnetCms.Services.DynamicFormService, DotnetCms",
+      "type": "GenericCms.Services.DynamicFormService, GenericCms",
       "instanceScope": "singleInstance"
     },
     {
-      "type": "DotnetCms.DatabaseSettings, DotnetCms",
+      "type": "GenericCms.DatabaseSettings, GenericCms",
       "instanceScope": "singleInstance",
       "injectProperties": true,
       "properties": {
-        "DatabaseName": "DotnetCms"
+        "DatabaseName": "GenericCms"
 
       }
     }

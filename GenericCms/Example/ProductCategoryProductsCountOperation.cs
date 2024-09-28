@@ -21,7 +21,12 @@ namespace GenericCms.Example
 
         public IEnumerable<dynamic> Execute(dynamic input)
         {
-            return _mongoDatabase.GetCollection<dynamic>("ProductCategory").Find(Builders<dynamic>.Filter.Empty).ToList().Select(x => ((ExpandoObject)x)).Select(x=>new { ((dynamic)x).Path, ((dynamic)x).Products.Count }).Where(x => x.Count > input.MinCount);
+            return _mongoDatabase.GetCollection<dynamic>("ProductCategory").Find(Builders<dynamic>.Filter.Empty).ToList().Select(x => ((ExpandoObject)x)).Select(x=> {
+                dynamic retD = new ExpandoObject();
+                retD.Path = ((dynamic)x).Path;
+                retD.Count = ((dynamic)x).Products.Count;
+                return retD;
+            }).Where(x => x.Count > input.MinCount);
             
         }
 
