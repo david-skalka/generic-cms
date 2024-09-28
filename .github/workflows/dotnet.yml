@@ -71,7 +71,7 @@ jobs:
         badge-path: './angular-coverage.svg'
         badge-type: 'cobertura'
         title: 'Angular Coverage'
-        cobertura-path: './GenericCmsClient/coverage/dotnet-cms-client/cobertura-coverage.xml'
+        cobertura-path: './GenericCmsClient/coverage/generic-cms-client/cobertura-coverage.xml'
     - name: Upload Dotnet badge to Gist
       uses: exuanbo/actions-deploy-gist@v1
       with:
