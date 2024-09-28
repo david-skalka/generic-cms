@@ -12,7 +12,7 @@ namespace GenericCms.Services
 
         DynamicProperty[] OutputModel { get; }
 
-        IEnumerable<dynamic> Execute(dynamic input);
+        IEnumerable<object> Execute(dynamic input);
 
     }
 

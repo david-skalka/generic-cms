@@ -86,7 +86,7 @@ namespace GenericCms.Services
        }
 
        
-        public IEnumerable<dynamic> ExecuteOperation(string operationName, dynamic input)
+        public IEnumerable<object> ExecuteOperation(string operationName, dynamic input)
         {
             var operation = operations.Single(x => x.GetType().FullName == OperationsMap[operationName]);
             return operation.Execute(input);

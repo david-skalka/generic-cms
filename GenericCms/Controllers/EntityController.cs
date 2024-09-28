@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using GenericCms.Services;
 using GenericCms.Models;
+using GenericCms.Helpers;
 
 
 
@@ -102,11 +103,15 @@ namespace GenericCms.Controllers
             }).ToArray() };
         }
 
+        
 
         [HttpPost("ExecuteOperation/{name}/{operationName}")]
         public IEnumerable<ExpandoObject> ExecuteOperation(string name, string operationName, ExpandoObject data)
         {
-            return entityServices.Single(x => x.Name == name).ExecuteOperation(operationName, data).Select(x=>(ExpandoObject)x);
+
+
+
+            return entityServices.Single(x => x.Name == name).ExecuteOperation(operationName, data).Select(ToExpandoHelper.ToExpando);
             
         }
 
