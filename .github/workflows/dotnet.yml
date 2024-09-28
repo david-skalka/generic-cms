@@ -51,8 +51,9 @@ jobs:
       uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
-        gist_id: ee887513e0318f0ceeee0caaf8271286
+        gist_id: 1ac2c9f2002be792389622871ae9401c
         file_path: dotnet-coverage.svg
+        gist_file_name: generic-cms-dotnet-coverage.svg 
     - uses: actions/upload-artifact@v4
       with:
         name: Dotnet
@@ -76,8 +77,9 @@ jobs:
       uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 0205fa3b1b481951ba27260c463757aa
+        gist_id: 2fe3b3d1c237d24d01747fdad6319909
         file_path: angular-coverage.svg
+        gist_file_name: generic-cms-angular-coverage.svg
     - name: Build Angular
       run: npm run build
       working-directory: GenericCmsClient
