@@ -1,0 +1,70 @@
+<div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+
+	<div fxLayout="row" fxFlex="50">
+
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Entity</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <button style="margin: 10px;" mat-button (click)="add()">
+          Add
+        </button>
+
+        <app-dynamic-list [properties]="descriptor.model!" [data]="items" (actionClick)="this.actionsMap.get($event.name)!($event.item)" [actions]="actions()"></app-dynamic-list>
+
+      </mat-card-content>
+
+    </mat-card>
+
+
+  </div>
+
+
+
+	<div fxLayout="row" fxFlex="50">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Operations</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+
+          <form [formGroup]="operationForm" (ngSubmit)="executeOperation(operationForm.value.operation!)">
+
+
+
+            <mat-form-field>
+
+              <mat-label>Operation</mat-label>
+              <mat-select formControlName="operation">
+                @for (operation of descriptor.operations; track operation.name) {
+                <mat-option [value]="operation.name">{{operation.name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+
+
+
+            <button style="margin: 10px;" [disabled]="!operationForm.valid" mat-button type="submit">
+              Execute
+            </button>
+
+
+
+
+
+          </form>
+
+
+          <app-dynamic-list [properties]="operationResultModel" [data]="operationResultData"></app-dynamic-list>
+
+
+        </div>
+
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+</div>

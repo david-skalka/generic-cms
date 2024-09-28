@@ -1,0 +1,68 @@
+[
+  {
+    "Name": "Name",
+    "Type": "String",
+    "DefaultValue": "",
+    "Validators": [
+      "NotEmpty"
+    ]
+  },
+  {
+    "Name": "Path",
+    "Type": "Autocomplete",
+    "DefaultValue": "",
+    "DataProvider": {
+      "Type": "EntityQuery",
+      "Name": "ProductCategory",
+      "Expression": {},
+      "Property": "Path"
+    }
+  },
+  {
+    "Name": "Description",
+    "Type": "String",
+    "DefaultValue": ""
+  },
+  {
+    "Name": "Products",
+    "Type": "Collection",
+    "DefaultValue": [],
+    "Properties": [
+      {
+        "Name": "Name",
+        "Type": "String",
+        "DefaultValue": ""
+      },
+      {
+        "Name": "Description",
+        "Type": "String",
+        "DefaultValue": ""
+      },
+      {
+        "Name": "Price",
+        "Type": "Number",
+        "DefaultValue": ""
+      },
+      {
+        "Name": "Images",
+        "Type": "Collection",
+        "DefaultValue": [],
+        "Properties": [
+          {
+            "Name": "Title",
+            "Type": "String",
+            "DefaultValue": "",
+            "Validators": [
+              "NotEmpty"
+            ]
+          },
+          {
+            "Name": "Path",
+            "DefaultValue": "",
+            "Type": "String"
+          }
+        ]
+      }
+    ]
+  }
+]

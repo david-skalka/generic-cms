@@ -1,0 +1,4 @@
+.vs
+inspect-report.txt
+MongoDB/**
+!MongoDB/.gitkeep

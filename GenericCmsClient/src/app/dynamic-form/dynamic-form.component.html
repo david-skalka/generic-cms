@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<mat-dialog-content >
+    <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
+
+  
+        @for (property of properties!; track property.name) {
+            <div fxLayout="row"  >
+    
+                <ng-container *ngComponentOutlet="dynamicFormControlMap.get(property.type!)!; inputs: {value: data.value[caseService.camelCase(property.name!)], property, onChange: writeValueFnMap.get(property.name!)};" ></ng-container>
+
+            </div>
+
+        }
+
+
+        <ul>
+            @for (error of errors; track error) {
+                <li style="color: red;">
+                    {{ error }}
+                </li>
+              }
+        </ul>
+
+        
+
+
+    </div>
+
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="okClick()" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+
+
+

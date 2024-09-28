@@ -1,0 +1,1 @@
+jb inspectcode DotnetCms.sln -f=text -o=inspect-report.txt

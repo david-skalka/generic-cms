@@ -1,0 +1,57 @@
+{
+  "components": [
+    {
+      "type": "MongoDB.Driver.MongoClient, MongoDB.Driver",
+      "services": [
+        {
+          "type": "MongoDB.Driver.IMongoClient, MongoDB.Driver"
+        }
+      ],
+      "instanceScope": "singleInstance",
+      "parameters": {
+        "connectionString": "mongodb://localhost:27017"
+      }
+    },
+    {
+      "type": "GenericCms.Services.EntityService, GenericCms",
+      "instanceScope": "singleInstance",
+      "injectProperties": true,
+      "properties": {
+        "Name": "ProductCategory",
+        "ModelPath": "Example\\Entities\\product-category.json",
+        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" }
+      },
+      "services": [
+        {
+          "type": "Autofac.IStartable, Autofac"
+        },
+        {
+          "type": "GenericCms.Services.EntityService, GenericCms"
+        }
+      ]
+    },
+    {
+      "type": "GenericCms.Example.ProductCategoryProductsCountOperation, GenericCms",
+      "instanceScope": "singleInstance",
+
+      "services": [
+        {
+          "type": "GenericCms.Services.IEntityOperation, GenericCms"
+        }
+      ]
+    },
+    {
+      "type": "GenericCms.Services.DynamicFormService, GenericCms",
+      "instanceScope": "singleInstance"
+    },
+    {
+      "type": "GenericCms.DatabaseSettings, GenericCms",
+      "instanceScope": "singleInstance",
+      "injectProperties": true,
+      "properties": {
+        "DatabaseName": "GenericCms"
+
+      }
+    }
+  ]
+}

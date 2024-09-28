@@ -1,0 +1,13 @@
+
+<div>
+<button mat-button (click)="add()">
+    Add
+  </button>
+  
+
+
+  <app-dynamic-list [properties]="property.properties!" [data]="value" (actionClick)="this.actionsMap.get($event.name)!($event.item)" [actions]="actions()"></app-dynamic-list>
+
+
+
+  

@@ -1,0 +1,90 @@
+name: .NET
+
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Build
+      run: dotnet build
+    - name: InspectCode
+      run: |
+         dotnet tool install -g JetBrains.ReSharper.GlobalTools
+         ./inspect.bat
+         $file = "inspect-report.txt"
+         $lineCount = (Get-Content $file | Measure-Object -Line).Lines
+         if ($lineCount -gt 1) {
+          exit 1
+         } 
+    - name: Download and Extract MongoDB
+      run: |
+          $mongoVersion = "7.0.0"
+          $mongoUrl = "https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-$mongoVersion.zip"
+          $installDir = "MongoDB"
+          Invoke-WebRequest -Uri $mongoUrl -OutFile "$installDir\mongodb.zip"
+          Expand-Archive -Path "$installDir\mongodb.zip" -DestinationPath $installDir -Force
+          Move-Item -Path "$installDir\mongodb-win32-x86_64-windows-7.0.0\*" -Destination "$installDir" -Force
+          Remove-Item "$installDir\mongodb.zip"
+          Remove-Item "$installDir\mongodb-win32-x86_64-windows-7.0.0"
+    - name: Test
+      run: |
+        dotnet tool install --global dotnet-coverage
+        dotnet-coverage collect dotnet test -f cobertura -o coverage.xml
+    - uses: cjlapao/simple-badge-generator-action@v1
+      with:
+        badge-path: './dotnet-coverage.svg'
+        badge-type: 'cobertura'
+        title: 'Dotnet Coverage'
+        cobertura-path: './coverage.xml'
+    - name: Upload Dotnet badge to Gist
+      uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: ee887513e0318f0ceeee0caaf8271286
+        file_path: dotnet-coverage.svg
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Dotnet
+        path: GenericCms/bin/Debug/net8.0/*
+    - name: Install node_modules
+      run: npm i
+      working-directory: GenericCmsClient
+    - name: Lint Angular
+      run: npm run-script ng lint
+      working-directory: GenericCmsClient
+    - name: Run tests
+      run: npm run-script ng test -- --karma-config=karma-ci.conf.js
+      working-directory: GenericCmsClient
+    - uses: cjlapao/simple-badge-generator-action@v1
+      with:
+        badge-path: './angular-coverage.svg'
+        badge-type: 'cobertura'
+        title: 'Angular Coverage'
+        cobertura-path: './GenericCmsClient/coverage/dotnet-cms-client/cobertura-coverage.xml'
+    - name: Upload Dotnet badge to Gist
+      uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 0205fa3b1b481951ba27260c463757aa
+        file_path: angular-coverage.svg
+    - name: Build Angular
+      run: npm run build
+      working-directory: GenericCmsClient
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Angular
+        path: GenericCmsClient/dist/*
+
+
+
