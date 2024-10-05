@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace GenericCmsTests
+namespace GenericCmsTests.Support
 {
 
     public class AutofacWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
@@ -18,10 +18,10 @@ namespace GenericCmsTests
 
 
 
-        
+
     }
 
-    
+
     public class CustomServiceProviderFactory : IServiceProviderFactory<ContainerBuilder>
     {
         private readonly AutofacServiceProviderFactory _wrapped = new();

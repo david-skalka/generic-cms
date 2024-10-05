@@ -1,4 +1,6 @@
 using GenericCms;
+using GenericCmsTests.Seeders;
+using GenericCmsTests.Support;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;

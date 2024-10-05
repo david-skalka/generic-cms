@@ -2,7 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 
 
-namespace GenericCmsTests
+namespace GenericCmsTests.Seeders
 {
     public class DefaultSeeder(IMongoDatabase mongoDatabase)
     {
@@ -55,7 +55,7 @@ namespace GenericCmsTests
 
 
             ]}
-            
+
         };
 
 

@@ -6,7 +6,7 @@ using Windows.Win32;
 using Windows.Win32.Security;
 using Windows.Win32.System.JobObjects;
 
-namespace GenericCmsTests
+namespace GenericCmsTests.Support
 {
 
 
@@ -56,7 +56,7 @@ namespace GenericCmsTests
 
         public static void EnsureMongoProcessesAreKilledWhenCurrentProcessIsKilled()
         {
-            
+
             if (IsWindows() && !IsNetFramework())
             {
                 CreateSingletonJobObject();
@@ -65,12 +65,12 @@ namespace GenericCmsTests
 
         private static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-        
+
         private static bool IsNetFramework() => RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.OrdinalIgnoreCase);
 
         private static unsafe void CreateSingletonJobObject()
         {
-            
+
             if (_jobObjectHandle != null)
             {
                 return;
@@ -87,7 +87,7 @@ namespace GenericCmsTests
                 var attributes = new SECURITY_ATTRIBUTES
                 {
                     bInheritHandle = false,
-                    lpSecurityDescriptor = IntPtr.Zero.ToPointer(),
+                    lpSecurityDescriptor = nint.Zero.ToPointer(),
                     nLength = (uint)Marshal.SizeOf(typeof(SECURITY_ATTRIBUTES)),
                 };
 
@@ -96,7 +96,9 @@ namespace GenericCmsTests
                 try
                 {
 
+#pragma warning disable CA1416 // Validate platform compatibility
                     jobHandle = PInvoke.CreateJobObject(attributes, lpName: null);
+#pragma warning restore CA1416 // Validate platform compatibility
 
 
                     if (jobHandle.IsInvalid)
@@ -104,7 +106,7 @@ namespace GenericCmsTests
                         throw new Win32Exception(Marshal.GetLastWin32Error());
                     }
 
-                    
+
                     var info = new JOBOBJECT_EXTENDED_LIMIT_INFORMATION
                     {
                         BasicLimitInformation = new JOBOBJECT_BASIC_LIMIT_INFORMATION
@@ -114,16 +116,20 @@ namespace GenericCmsTests
                     };
 
 
+#pragma warning disable CA1416 // Validate platform compatibility
                     if (!PInvoke.SetInformationJobObject(jobHandle, JOBOBJECTINFOCLASS.JobObjectExtendedLimitInformation, &info, (uint)Marshal.SizeOf<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>()))
                     {
                         throw new Win32Exception(Marshal.GetLastWin32Error());
                     }
+#pragma warning restore CA1416 // Validate platform compatibility
 
 
+#pragma warning disable CA1416 // Validate platform compatibility
                     if (!PInvoke.AssignProcessToJobObject(jobHandle, Process.GetCurrentProcess().SafeHandle))
                     {
                         throw new Win32Exception(Marshal.GetLastWin32Error());
                     }
+#pragma warning restore CA1416 // Validate platform compatibility
 
                     _jobObjectHandle = jobHandle;
                 }
