@@ -22,7 +22,7 @@ describe('DynamicFormComponent', () => {
 
   beforeEach(async () => {
    
-    const entityServiceSpy = jasmine.createSpyObj<EntityServiceInterface>('DataService', ['entityQueryNamePost']);
+    const entityServiceSpy = jasmine.createSpyObj<EntityServiceInterface>(['entityQueryNamePost']);
 
     entityServiceSpy.entityQueryNamePost.and.returnValue(of([{ path: 'Notebooks' }])  );
    

@@ -21,7 +21,14 @@ describe('EntityComponent', () => {
   let component: EntityComponent;
   let fixture: ComponentFixture<EntityComponent>;
 
-  const entityServiceSpy = jasmine.createSpyObj<EntityServiceInterface>(['entityQueryNamePost', 'entityDescriptorNameGet', 'entityNameIdGet', 'entityNameIdPut', 'entityNameIdDelete','entityNameGet', 'entityExecuteOperationNameOperationNamePost' ]);
+  let entityServiceSpy: jasmine.SpyObj<EntityServiceInterface> | null = null;
+
+  const matDialogSpy = jasmine.createSpyObj<MatDialog>(['open']);
+    matDialogSpy.open.and.returnValue({componentInstance: {ok: of({name: 'David'})}, close : jasmine.createSpy('close')} as never);
+
+  beforeEach(async () => {
+
+  entityServiceSpy = jasmine.createSpyObj<EntityServiceInterface>(['entityQueryNamePost', 'entityDescriptorNameGet', 'entityNameIdGet', 'entityNameIdPut', 'entityNameIdDelete','entityNameGet', 'entityExecuteOperationNameOperationNamePost' ]);
 
   entityServiceSpy.entityQueryNamePost.and.returnValue(of([{ path: 'Notebooks' }])  );
 
@@ -37,10 +44,7 @@ describe('EntityComponent', () => {
 
   entityServiceSpy.entityExecuteOperationNameOperationNamePost.and.returnValue(of([])  );
 
-  const matDialogSpy = jasmine.createSpyObj<MatDialog>(['open']);
-    matDialogSpy.open.and.returnValue({componentInstance: {ok: of({name: 'David'})}, close : jasmine.createSpy('close')} as never);
 
-  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ MatTableModule, MatPaginatorModule, BrowserAnimationsModule , RouterModule.forRoot([]), MatCardModule,BrowserAnimationsModule,
       FormsModule,
@@ -83,14 +87,12 @@ describe('EntityComponent', () => {
 
   it('should edit', async () => {
     await component.edit(component.items[0]);
-    
-    expect(component.items.length).toBe(0);
+    expect(entityServiceSpy!.entityNameIdPut).toHaveBeenCalled();
   });
 
   it('should delete', async () => {
     await component.delete(component.items[0]);
-    
-    expect(component.items.length).toBe(0);
+    expect(entityServiceSpy!.entityNameIdDelete).toHaveBeenCalled();
   });
 
 
@@ -98,7 +100,7 @@ describe('EntityComponent', () => {
   it('should execute operation', async () => {
     await component.executeOperation('ProductsCount');
     
-    expect(component.operationResultData.length).toBe(0);
+    expect(entityServiceSpy!.entityExecuteOperationNameOperationNamePost).toHaveBeenCalled();
   });
 
 
