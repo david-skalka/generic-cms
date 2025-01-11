@@ -57,7 +57,9 @@ This repository demonstrates a generic, testable headless CMS architecture built
 
 
 ## Example
-### Here’s an example of how the Entities/product-category.json properties file might look to represent the ProductCategory tree, including a list of products and their associated images:
+
+Here’s an example of how the Entities/product-category.json properties file might look to represent the ProductCategory tree, including a list of products and their associated images:
+
 ```
 [
   {
@@ -128,7 +130,10 @@ This repository demonstrates a generic, testable headless CMS architecture built
   }
 ]
 ```
-### Here’s an example of what the autofac.json configuration might look like for registering the ProductCategory entity and adding an operation like ProductsCount
+
+Here’s an example of what the autofac.json configuration might look like for registering the ProductCategory entity and adding an operation like ProductsCount
+
+
 ```
 {
   "components": [
