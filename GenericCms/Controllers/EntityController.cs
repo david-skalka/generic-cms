@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
+using Autofac;
+using FluentValidation;
 using GenericCms.Services;
 using GenericCms.Models;
 using GenericCms.Helpers;
@@ -11,7 +13,7 @@ namespace GenericCms.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EntityController(EntityService[] entityServices, DynamicFormService dynamicFormService, IEntityOperation[] operations) : ControllerBase
+    public class EntityController(EntityService[] entityServices, IEntityOperation[] operations, ILifetimeScope scope) : ControllerBase
     {
 
 
@@ -45,10 +47,15 @@ namespace GenericCms.Controllers
         [HttpPost("{name}")]
         public ActionResult<ExpandoObject> Create(string name, ExpandoObject data)
         {
-
-            
-            Dictionary<string, string> validationResult = dynamicFormService.ValidateWorker(data, entityServices.Single(x => x.Name == name).Model, []);
-
+            var validator = scope.ResolveKeyed<IValidator>(entityServices.Single(x => x.Name == name).ValidatorServiceKey);
+           
+            var context = new ValidationContext<ExpandoObject>(data);
+           
+            var result = validator.Validate(context);
+           
+            var validationResult = result.Errors
+                .Select(failure => $"[{failure.PropertyName}, {failure.ErrorMessage}]")
+                .ToList();
 
             if (validationResult.Any())
             {
@@ -66,9 +73,17 @@ namespace GenericCms.Controllers
         [HttpPut("{name}/{id}")]
        public ActionResult Update(string name, string id, ExpandoObject data)
        {
-            
-            Dictionary<string, string> validationResult = dynamicFormService.ValidateWorker(data, entityServices.Single(x => x.Name == name).Model, []);
-
+           
+           var validator = scope.ResolveKeyed<IValidator>(entityServices.Single(x => x.Name == name).ValidatorServiceKey);
+           
+           var context = new ValidationContext<ExpandoObject>(data);
+           
+           var result = validator.Validate(context);
+           
+           var validationResult = result.Errors
+               .Select(failure => $"[{failure.PropertyName}, {failure.ErrorMessage}]")
+               .ToList();
+           
 
             if (validationResult.Any())
             {
@@ -127,10 +142,6 @@ namespace GenericCms.Controllers
     }
 
 
-
-
-
-   
 
 
 }

@@ -34,6 +34,9 @@ namespace GenericCms.Services
 
         [UsedImplicitly(ImplicitUseTargetFlags.Default)]
         public Dictionary<string, string> OperationsMap { get; set; } = new();
+        
+        
+        public string ValidatorServiceKey { get; set; } = string.Empty;
 
 
         public void Start()

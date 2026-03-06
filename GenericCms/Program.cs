@@ -2,6 +2,7 @@ using Autofac;
 using Autofac.Configuration;
 using Autofac.Extensions.DependencyInjection;
 using CaseExtensions;
+using FluentValidation;
 using GenericCms.Helpers;
 using JetBrains.Annotations;
 
@@ -14,6 +15,8 @@ public class Program
     public static void Main(string[] args)
     {
 
+        
+        
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -42,7 +45,7 @@ public class Program
             .AddJsonFile(autofacConf, optional: false, reloadOnChange: true)
             .Build();
 
-
+        
         builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         {
             var module = new ConfigurationModule(config);

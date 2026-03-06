@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Net.Http.Json;
+using Testcontainers.MongoDb;
 
 namespace GenericCmsTests
 {
@@ -15,28 +16,22 @@ namespace GenericCmsTests
         private DefaultSeeder _seeder;
 
         private WebApplicationFactory<Program> _factory;
-        private MongoDbController _mongoDbController;
+        
+            private MongoDbContainer _mongoDbContainer;
 
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public async Task OneTimeSetUp()
         {
 
-            string mongoPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\..\..\", "MongoDB"));
-            var mongoPort = 27019;
+            
+            _mongoDbContainer = new MongoDbBuilder("mongo:latest")
+                .Build();
 
-            var mongoDataDir = Path.Combine(TestContext.CurrentContext.TestDirectory, "MongoDBData", Guid.NewGuid().ToString());
+            await _mongoDbContainer.StartAsync();
 
-
-            if (!Directory.Exists(mongoDataDir))
-            {
-                Directory.CreateDirectory(mongoDataDir);
-            }
-
-            _mongoDbController = new MongoDbController(mongoPort, Path.Combine(mongoPath, "bin", "mongod.exe"), mongoDataDir);
-
-            _mongoDbController.StartMongoDb();
-
-            _factory = new AutofacWebApplicationFactory<Program>().WithDefaultConfigureTestContainer("mongodb://localhost:27019");
+            string connectionString = _mongoDbContainer.GetConnectionString();
+            
+            _factory = new AutofacWebApplicationFactory<Program>().WithDefaultConfigureTestContainer(connectionString);
 
             _client = _factory.CreateClient();
 
@@ -48,12 +43,13 @@ namespace GenericCmsTests
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown()
+        public async Task OneTimeTearDown()
         {
             _factory.Dispose();
 
 
-            _mongoDbController.StopMongoDb();
+            await _mongoDbContainer.StopAsync();
+            await _mongoDbContainer.DisposeAsync();
 
             _client.Dispose();
         }

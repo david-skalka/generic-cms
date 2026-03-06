@@ -18,8 +18,9 @@
       "injectProperties": true,
       "properties": {
         "Name": "ProductCategory",
-        "ModelPath": "Example\\Entities\\product-category.json",
-        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" }
+        "ModelPath": "Example/Entities/product-category.json",
+        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" },
+        "ValidatorServiceKey": "ProductCategoryValidator"
       },
       "services": [
         {
@@ -41,10 +42,6 @@
       ]
     },
     {
-      "type": "GenericCms.Services.DynamicFormService, GenericCms",
-      "instanceScope": "singleInstance"
-    },
-    {
       "type": "GenericCms.DatabaseSettings, GenericCms",
       "instanceScope": "singleInstance",
       "injectProperties": true,
@@ -52,6 +49,19 @@
         "DatabaseName": "GenericCms"
 
       }
+    },
+
+
+    {
+      "type": "GenericCms.Example.Validators.ProductCategoryValidator, GenericCms",
+      "services": [
+        {
+          "type": "FluentValidation.IValidator, FluentValidation",
+          "key": "ProductCategoryValidator"
+        }
+      ]
     }
+      
+    
   ]
 }

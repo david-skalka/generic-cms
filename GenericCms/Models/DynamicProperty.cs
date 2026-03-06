@@ -10,9 +10,6 @@ namespace GenericCms.Models
         public required string Name { get; init; }
 
         [UsedImplicitly(ImplicitUseTargetFlags.Default)]
-        public List<string>? Validators { get; init; }
-
-        [UsedImplicitly(ImplicitUseTargetFlags.Default)]
         public abstract string Type { get; }
 
         [UsedImplicitly(ImplicitUseTargetFlags.Default)]
