@@ -39,7 +39,7 @@ This repository demonstrates a generic, testable headless CMS architecture built
 - Collection property type (e.g. images of product)
 - Hierarchical entity design using path pattern ( see Path property in example)
 - Flexible query endpoint for accessing your store ( MongoDB json expression )
-- Server side field validation rules
+- Enterprise-grade server-side validation.
 
 
 ## Property types
@@ -60,15 +60,12 @@ This repository demonstrates a generic, testable headless CMS architecture built
 
 Here’s an example of how the Entities/product-category.json properties file might look to represent the ProductCategory tree, including a list of products and their associated images:
 
-```
+```json
 [
   {
     "Name": "Name",
     "Type": "String",
-    "DefaultValue": "",
-    "Validators": [
-      "NotEmpty"
-    ]
+    "DefaultValue": ""
   },
   {
     "Name": "Path",
@@ -114,10 +111,7 @@ Here’s an example of how the Entities/product-category.json properties file mi
           {
             "Name": "Title",
             "Type": "String",
-            "DefaultValue": "",
-            "Validators": [
-              "NotEmpty"
-            ]
+            "DefaultValue": ""
           },
           {
             "Name": "Path",
@@ -134,7 +128,7 @@ Here’s an example of how the Entities/product-category.json properties file mi
 Here’s an example of what the autofac.json configuration might look like for registering the ProductCategory entity and adding an operation like ProductsCount
 
 
-```
+```json
 {
   "components": [
     {
@@ -155,8 +149,9 @@ Here’s an example of what the autofac.json configuration might look like for r
       "injectProperties": true,
       "properties": {
         "Name": "ProductCategory",
-        "ModelPath": "Example\\Entities\\product-category.json",
-        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" }
+        "ModelPath": "Example/Entities/product-category.json",
+        "OperationsMap": { "ProductsCount": "GenericCms.Example.ProductCategoryProductsCountOperation" },
+        "ValidatorServiceKey": "ProductCategoryValidator"
       },
       "services": [
         {
@@ -178,10 +173,6 @@ Here’s an example of what the autofac.json configuration might look like for r
       ]
     },
     {
-      "type": "GenericCms.Services.DynamicFormService, GenericCms",
-      "instanceScope": "singleInstance"
-    },
-    {
       "type": "GenericCms.DatabaseSettings, GenericCms",
       "instanceScope": "singleInstance",
       "injectProperties": true,
@@ -189,7 +180,20 @@ Here’s an example of what the autofac.json configuration might look like for r
         "DatabaseName": "GenericCms"
 
       }
+    },
+
+
+    {
+      "type": "GenericCms.Example.Validators.ProductCategoryValidator, GenericCms",
+      "services": [
+        {
+          "type": "FluentValidation.IValidator, FluentValidation",
+          "key": "ProductCategoryValidator"
+        }
+      ]
     }
+      
+    
   ]
 }
 ```
